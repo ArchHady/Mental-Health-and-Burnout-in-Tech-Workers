@@ -1,0 +1,383 @@
+{
+  "numeric": {
+    "age": {
+      "min": 22.0,
+      "max": 55.0,
+      "median": 31.0,
+      "is_integer": true
+    },
+    "years_experience": {
+      "min": 0.0,
+      "max": 25.0,
+      "median": 9.0,
+      "is_integer": true
+    },
+    "years_at_company": {
+      "min": 0.1,
+      "max": 15.0,
+      "median": 1.7,
+      "is_integer": false
+    },
+    "salary_usd": {
+      "min": 40000.0,
+      "max": 267961.0,
+      "median": 76539.0,
+      "is_integer": true
+    },
+    "work_hours_per_week": {
+      "min": 35.0,
+      "max": 72.0,
+      "median": 47.0,
+      "is_integer": true
+    },
+    "meetings_per_day": {
+      "min": 0.0,
+      "max": 12.0,
+      "median": 4.0,
+      "is_integer": false
+    },
+    "team_size": {
+      "min": 2.0,
+      "max": 59.0,
+      "median": 16.0,
+      "is_integer": true
+    },
+    "sleep_hours_per_night": {
+      "min": 3.0,
+      "max": 10.0,
+      "median": 6.1,
+      "is_integer": false
+    },
+    "exercise_days_per_week": {
+      "min": 0.0,
+      "max": 7.0,
+      "median": 3.0,
+      "is_integer": true
+    },
+    "vacation_days_taken": {
+      "min": 0.0,
+      "max": 30.0,
+      "median": 12.0,
+      "is_integer": true
+    },
+    "therapy_access": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "is_integer": true
+    },
+    "uses_therapy": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "is_integer": true
+    },
+    "ai_tools_daily": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 1.0,
+      "is_integer": true
+    },
+    "manager_support_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.8,
+      "is_integer": false
+    },
+    "work_life_balance_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.4,
+      "is_integer": false
+    },
+    "job_satisfaction_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 4.8,
+      "is_integer": false
+    },
+    "social_support_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.4,
+      "is_integer": false
+    },
+    "deadline_pressure_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 6.4,
+      "is_integer": false
+    },
+    "autonomy_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 5.8,
+      "is_integer": false
+    },
+    "stress_score": {
+      "min": 1.0,
+      "max": 10.0,
+      "median": 7.1,
+      "is_integer": false
+    }
+  },
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male",
+      "Non-binary",
+      "Prefer not to say"
+    ],
+    "country": [
+      "Australia",
+      "Brazil",
+      "Canada",
+      "France",
+      "Germany",
+      "India",
+      "Netherlands",
+      "Singapore",
+      "UK",
+      "USA"
+    ],
+    "job_role": [
+      "Backend Developer",
+      "Cloud Engineer",
+      "Cybersecurity Engineer",
+      "Data Analyst",
+      "Data Scientist",
+      "DevOps Engineer",
+      "Frontend Developer",
+      "Full Stack Developer",
+      "ML Engineer",
+      "Product Manager",
+      "QA Engineer",
+      "Software Engineer"
+    ],
+    "seniority_level": [
+      "Junior",
+      "Lead",
+      "Manager",
+      "Mid",
+      "Principal",
+      "Senior"
+    ],
+    "company_size": [
+      "Enterprise (5000+)",
+      "Large (1001-5000)",
+      "Mid (201-1000)",
+      "Small (51-200)",
+      "Startup (1-50)"
+    ],
+    "industry": [
+      "AI / ML Startup",
+      "Consulting",
+      "Cybersecurity",
+      "E-commerce",
+      "Enterprise Software",
+      "Fintech",
+      "Gaming",
+      "Healthcare Tech",
+      "SaaS / Cloud",
+      "Social Media / AdTech"
+    ],
+    "work_mode": [
+      "Hybrid",
+      "On-site",
+      "Remote"
+    ]
+  },
+  "derived_numeric": {
+    "seniority_ord": {
+      "min": 1.0,
+      "max": 6.0,
+      "median": 3.0
+    },
+    "company_size_ord": {
+      "min": 1.0,
+      "max": 5.0,
+      "median": 3.0
+    },
+    "work_recovery_ratio": {
+      "min": 3.789473684210526,
+      "max": 19.35483870967742,
+      "median": 7.714285714285714
+    },
+    "pressure_vs_support": {
+      "min": -18.0,
+      "max": 7.4,
+      "median": -4.8
+    },
+    "resilience_index": {
+      "min": 0.14250000000000002,
+      "max": 0.8626190476190476,
+      "median": 0.4938095238095238
+    },
+    "tenure_experience_ratio": {
+      "min": 0.0038461538461538464,
+      "max": 15.0,
+      "median": 0.19999999999999998
+    },
+    "salary_per_experience": {
+      "min": 1538.4615384615386,
+      "max": 250676.0,
+      "median": 8120.796380090498
+    },
+    "meetings_burden": {
+      "min": 0.0,
+      "max": 683.1999999999999,
+      "median": 184.49999999999997
+    },
+    "log_salary": {
+      "min": 10.596659732783579,
+      "max": 12.498600458394916,
+      "median": 11.245568758979694
+    },
+    "log_team_size": {
+      "min": 1.0986122886681098,
+      "max": 4.0943445622221,
+      "median": 2.833213344056216
+    },
+    "overworked": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "sleep_deprived": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "no_vacation": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "high_meetings": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "no_exercise": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0
+    },
+    "stress_x_hours": {
+      "min": 35.0,
+      "max": 720.0,
+      "median": 332.09999999999997
+    },
+    "stress_x_sleep_inv": {
+      "min": 0.10869565217391305,
+      "max": 3.3333333333333335,
+      "median": 1.1754385964912282
+    },
+    "pressure_x_imbalance": {
+      "min": 1.0,
+      "max": 100.0,
+      "median": 34.17
+    },
+    "stress_x_no_support": {
+      "min": 1.0,
+      "max": 100.0,
+      "median": 34.98
+    }
+  },
+  "iqr_bounds": {
+    "salary_usd": {
+      "low": -48623.875,
+      "high": 203755.125,
+      "q1": 46018.25,
+      "q3": 109113.0
+    },
+    "work_hours_per_week": {
+      "low": 33.5,
+      "high": 61.5,
+      "q1": 44.0,
+      "q3": 51.0
+    },
+    "meetings_per_day": {
+      "low": -1.100000000000001,
+      "high": 9.3,
+      "q1": 2.8,
+      "q3": 5.4
+    },
+    "team_size": {
+      "low": -17.5,
+      "high": 50.5,
+      "q1": 8.0,
+      "q3": 25.0
+    },
+    "sleep_hours_per_night": {
+      "low": 3.300000000000001,
+      "high": 8.899999999999999,
+      "q1": 5.4,
+      "q3": 6.8
+    },
+    "vacation_days_taken": {
+      "low": -4.0,
+      "high": 28.0,
+      "q1": 8.0,
+      "q3": 16.0
+    },
+    "years_experience": {
+      "low": -11.0,
+      "high": 29.0,
+      "q1": 4.0,
+      "q3": 14.0
+    },
+    "years_at_company": {
+      "low": -3.499999999999999,
+      "high": 7.699999999999999,
+      "q1": 0.7,
+      "q3": 3.5
+    }
+  },
+  "feature_order": [
+    "age",
+    "years_experience",
+    "years_at_company",
+    "salary_usd",
+    "work_hours_per_week",
+    "meetings_per_day",
+    "team_size",
+    "sleep_hours_per_night",
+    "exercise_days_per_week",
+    "vacation_days_taken",
+    "therapy_access",
+    "uses_therapy",
+    "ai_tools_daily",
+    "manager_support_score",
+    "work_life_balance_score",
+    "job_satisfaction_score",
+    "social_support_score",
+    "deadline_pressure_score",
+    "autonomy_score",
+    "stress_score",
+    "seniority_ord",
+    "company_size_ord",
+    "work_recovery_ratio",
+    "pressure_vs_support",
+    "resilience_index",
+    "tenure_experience_ratio",
+    "salary_per_experience",
+    "meetings_burden",
+    "log_salary",
+    "log_team_size",
+    "overworked",
+    "sleep_deprived",
+    "no_vacation",
+    "high_meetings",
+    "no_exercise",
+    "stress_x_hours",
+    "stress_x_sleep_inv",
+    "pressure_x_imbalance",
+    "stress_x_no_support",
+    "gender",
+    "country",
+    "job_role",
+    "industry",
+    "work_mode"
+  ]
+}

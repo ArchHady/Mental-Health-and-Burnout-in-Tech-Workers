@@ -1,0 +1,172 @@
+{
+  "winning_model": "LogisticRegression",
+  "accuracy": 0.7050052713489633,
+  "macro_f1": 0.6957315371257058,
+  "weighted_f1": 0.7094333985608486,
+  "classification_report": {
+    "High": {
+      "precision": 0.48918685121107264,
+      "recall": 0.5858585858585859,
+      "f1-score": 0.5331761932822628,
+      "support": 3861.0
+    },
+    "Low": {
+      "precision": 0.8286172988159743,
+      "recall": 0.8028388100330547,
+      "f1-score": 0.8155243926525775,
+      "support": 5143.0
+    },
+    "Moderate": {
+      "precision": 0.6150935882118678,
+      "recall": 0.5900668576886342,
+      "f1-score": 0.6023203665789217,
+      "support": 5235.0
+    },
+    "Severe": {
+      "precision": 0.862570888468809,
+      "recall": 0.8033450704225352,
+      "f1-score": 0.8319051959890611,
+      "support": 5680.0
+    },
+    "accuracy": 0.7050052713489633,
+    "macro avg": {
+      "precision": 0.6988671566769309,
+      "recall": 0.6955273310007024,
+      "f1-score": 0.6957315371257058,
+      "support": 19919.0
+    },
+    "weighted avg": {
+      "precision": 0.7163887133454726,
+      "recall": 0.7050052713489633,
+      "f1-score": 0.7094333985608486,
+      "support": 19919.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      2262,
+      23,
+      893,
+      683
+    ],
+    [
+      40,
+      4129,
+      974,
+      0
+    ],
+    [
+      1271,
+      831,
+      3089,
+      44
+    ],
+    [
+      1051,
+      0,
+      66,
+      4563
+    ]
+  ],
+  "class_labels": [
+    "High",
+    "Low",
+    "Moderate",
+    "Severe"
+  ],
+  "permutation_importance": [
+    {
+      "feature": "stress_score",
+      "importance": 0.2128300396478433,
+      "std": 0.00340055229415554
+    },
+    {
+      "feature": "stress_x_hours",
+      "importance": 0.139722477292417,
+      "std": 0.00623615544657097
+    },
+    {
+      "feature": "work_life_balance_score",
+      "importance": 0.037571352169274784,
+      "std": 0.0038254141674335836
+    },
+    {
+      "feature": "sleep_hours_per_night",
+      "importance": 0.02913143385188599,
+      "std": 0.0028036114318777516
+    },
+    {
+      "feature": "work_hours_per_week",
+      "importance": 0.02757379127915376,
+      "std": 0.00417505185721226
+    },
+    {
+      "feature": "deadline_pressure_score",
+      "importance": 0.026661035085614217,
+      "std": 0.00267904808686169
+    },
+    {
+      "feature": "stress_x_sleep_inv",
+      "importance": 0.019334896734864347,
+      "std": 0.005623858141603411
+    },
+    {
+      "feature": "social_support_score",
+      "importance": 0.01597478759275517,
+      "std": 0.005140316984234726
+    },
+    {
+      "feature": "vacation_days_taken",
+      "importance": 0.014666910020756596,
+      "std": 0.003936757836130192
+    },
+    {
+      "feature": "autonomy_score",
+      "importance": 0.006764994257129908,
+      "std": 0.002290255239616768
+    },
+    {
+      "feature": "meetings_per_day",
+      "importance": 0.003435169440371544,
+      "std": 0.0025080811745775214
+    },
+    {
+      "feature": "resilience_index",
+      "importance": 0.0033444569379053046,
+      "std": 0.0036031285861704014
+    },
+    {
+      "feature": "exercise_days_per_week",
+      "importance": 0.003136584603287207,
+      "std": 0.003426792734521573
+    },
+    {
+      "feature": "uses_therapy",
+      "importance": 0.002268960905870676,
+      "std": 0.0019926409090851587
+    },
+    {
+      "feature": "meetings_burden",
+      "importance": 0.001477025029462209,
+      "std": 0.0031727110232482184
+    }
+  ],
+  "leaderboard": {
+    "LogisticRegression": {
+      "macro_f1": 0.6961111592356447,
+      "accuracy": 0.7058351013273336
+    },
+    "HistGradientBoosting": {
+      "macro_f1": 0.6893547687961334,
+      "accuracy": 0.6980030577182021
+    },
+    "XGBoost": {
+      "macro_f1": 0.690861917300846,
+      "accuracy": 0.7004881959545315
+    },
+    "Ensemble(LR+HGB+XGB)": {
+      "macro_f1": 0.6939473987751285,
+      "accuracy": 0.7032495110734667
+    }
+  }
+}
