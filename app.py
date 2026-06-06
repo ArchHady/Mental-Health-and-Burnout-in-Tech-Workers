@@ -25,15 +25,33 @@ import types
 from feature_engineering import engineer_features
 from models import SoftVotingEnsemble
 
-# ── Pickle compatibility patch ────────────────────────────────────────────────
-# joblib stores the *module path* of every class in the pickle.  Depending on
-# which Python / environment trained the model, SoftVotingEnsemble may have
-# been stored as  '__main__', 'models', or 'train_model'.  Registering the
-# class under all three names in sys.modules ensures joblib can always find it
-# regardless of where the artifact was originally produced.
+# ── Pickle compatibility — two-layer defence ─────────────────────────────────
+# Layer 1: sys.modules registration
+# joblib stores the module path of every class in the pickle file.
+# Register SoftVotingEnsemble under all names it could have been pickled with
+# (__main__, models, train_model) so the standard lookup succeeds.
 for _mod_name in ("__main__", "models", "train_model"):
     _mod = sys.modules.setdefault(_mod_name, types.ModuleType(_mod_name))
     setattr(_mod, "SoftVotingEnsemble", SoftVotingEnsemble)
+
+# Layer 2: NumpyUnpickler.find_class patch (catches any remaining edge case)
+# joblib uses NumpyUnpickler internally.  Patching find_class on that class
+# means our handler runs inside joblib.load itself, regardless of which module
+# name was stored in the pickle or what Python version is running.
+try:
+    from joblib.numpy_pickle import NumpyUnpickler as _NUP
+    _orig_find = getattr(_NUP, "find_class", None)
+
+    def _safe_find_class(self, module, name):       # noqa: E306
+        if name == "SoftVotingEnsemble":
+            return SoftVotingEnsemble
+        if _orig_find is not None:
+            return _orig_find(self, module, name)
+        return super(_NUP, self).find_class(module, name)
+
+    _NUP.find_class = _safe_find_class
+except Exception:
+    pass  # fall back to layer-1 only if joblib internals differ
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Page config  (must be the very first Streamlit call)
