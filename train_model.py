@@ -233,7 +233,7 @@ def tune_and_train(
             "clf__l2_regularization": loguniform(0.001, 2.0),
         },
         n_iter=N_ITER_SEARCH, cv=cv, scoring="f1_macro",
-        n_jobs=-1, random_state=RANDOM_STATE, refit=True, verbose=0,
+        n_jobs=1, random_state=RANDOM_STATE, refit=True, verbose=0,
     )
     hgb_search.fit(X_train, y_train)
     print(f"      HGB best CV macro-F1: {hgb_search.best_score_:.3f}  ({time.time()-t0:.0f}s)")
@@ -245,7 +245,7 @@ def tune_and_train(
         Pipeline([
             ("pre", build_preprocessor(model_numeric_cols, model_categorical_cols)),
             ("clf", XGBClassifier(
-                eval_metric="mlogloss", n_jobs=-1, random_state=RANDOM_STATE)),
+                eval_metric="mlogloss", n_jobs=1, random_state=RANDOM_STATE)),
         ]),
         param_distributions={
             "clf__n_estimators":      randint(200, 500),
@@ -256,7 +256,7 @@ def tune_and_train(
             "clf__reg_alpha":         loguniform(0.001, 1.0),
         },
         n_iter=N_ITER_SEARCH, cv=cv, scoring="f1_macro",
-        n_jobs=-1, random_state=RANDOM_STATE, refit=True, verbose=0,
+        n_jobs=1, random_state=RANDOM_STATE, refit=True, verbose=0,
     )
     xgb_search.fit(X_train, y_train, clf__sample_weight=sample_weights)
     print(f"      XGB best CV macro-F1: {xgb_search.best_score_:.3f}  ({time.time()-t0:.0f}s)")
@@ -266,7 +266,7 @@ def tune_and_train(
     t0 = time.time()
     lr_pipe = Pipeline([
         ("pre", build_preprocessor(model_numeric_cols, model_categorical_cols)),
-        ("clf", LogisticRegression(max_iter=2000, n_jobs=-1, C=3.0, class_weight="balanced")),
+        ("clf", LogisticRegression(max_iter=2000, n_jobs=1, C=3.0, class_weight="balanced")),
     ])
     lr_pipe.fit(X_train, y_train)
     print(f"      LR done  ({time.time()-t0:.1f}s)")
@@ -309,7 +309,7 @@ def tune_and_train(
     best_ind_pipe = fitted_pipes[best_ind_name]
     cv_fold_scores = cross_val_score(
         best_ind_pipe, X_train, y_train,
-        cv=cv, scoring="f1_macro", n_jobs=-1,
+        cv=cv, scoring="f1_macro", n_jobs=1,
     )
     print(f"      CV fold scores ({best_ind_name}): "
           f"{[f'{s:.3f}' for s in cv_fold_scores]}  "
