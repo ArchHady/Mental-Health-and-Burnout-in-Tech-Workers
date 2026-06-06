@@ -1,0 +1,435 @@
+{
+  "numeric": {
+    "employee_id": {
+      "count": 100000,
+      "mean": 50000.5,
+      "std": 28867.65779668774,
+      "min": 1.0,
+      "q25": 25000.75,
+      "median": 50000.5,
+      "q75": 75000.25,
+      "max": 100000.0,
+      "skew": -1.0641879792161445e-16,
+      "kurtosis": -1.1999999999999995
+    },
+    "age": {
+      "count": 100000,
+      "mean": 31.30567,
+      "std": 6.427924162059656,
+      "min": 22.0,
+      "q25": 26.0,
+      "median": 31.0,
+      "q75": 36.0,
+      "max": 55.0,
+      "skew": 0.40959566565776284,
+      "kurtosis": -0.3563986373062247
+    },
+    "years_experience": {
+      "count": 100000,
+      "mean": 9.34369,
+      "std": 6.401543328094391,
+      "min": 0.0,
+      "q25": 4.0,
+      "median": 9.0,
+      "q75": 14.0,
+      "max": 25.0,
+      "skew": 0.37175775107909526,
+      "kurtosis": -0.6153202897853514
+    },
+    "years_at_company": {
+      "count": 100000,
+      "mean": 2.4925810000000004,
+      "std": 2.4504258618264796,
+      "min": 0.1,
+      "q25": 0.7,
+      "median": 1.7,
+      "q75": 3.5,
+      "max": 15.0,
+      "skew": 1.8133212730011958,
+      "kurtosis": 4.129768226373329
+    },
+    "salary_usd": {
+      "count": 100000,
+      "mean": 83285.49023,
+      "std": 39392.584826583006,
+      "min": 40000.0,
+      "q25": 46018.25,
+      "median": 76630.5,
+      "q75": 109113.0,
+      "max": 267961.0,
+      "skew": 0.7872329608821703,
+      "kurtosis": 0.01010690487922794
+    },
+    "work_hours_per_week": {
+      "count": 100000,
+      "mean": 47.10408,
+      "std": 5.246902195908223,
+      "min": 35.0,
+      "q25": 44.0,
+      "median": 47.0,
+      "q75": 51.0,
+      "max": 72.0,
+      "skew": 0.10010687559054048,
+      "kurtosis": -0.14545699585465055
+    },
+    "meetings_per_day": {
+      "count": 100000,
+      "mean": 4.162244,
+      "std": 1.9378493845153113,
+      "min": 0.0,
+      "q25": 2.8,
+      "median": 4.0,
+      "q75": 5.4,
+      "max": 12.0,
+      "skew": 0.38086849257126354,
+      "kurtosis": -0.09360865703926446
+    },
+    "team_size": {
+      "count": 100000,
+      "mean": 18.00965,
+      "std": 12.607472639715052,
+      "min": 2.0,
+      "q25": 8.0,
+      "median": 16.0,
+      "q75": 25.0,
+      "max": 59.0,
+      "skew": 1.11757188204344,
+      "kurtosis": 1.092514581090207
+    },
+    "sleep_hours_per_night": {
+      "count": 100000,
+      "mean": 6.102391999999999,
+      "std": 0.9988075162415154,
+      "min": 3.0,
+      "q25": 5.4,
+      "median": 6.1,
+      "q75": 6.8,
+      "max": 10.0,
+      "skew": 0.016813342033650352,
+      "kurtosis": -0.0028727751973476323
+    },
+    "exercise_days_per_week": {
+      "count": 100000,
+      "mean": 2.96873,
+      "std": 1.7727615784239399,
+      "min": 0.0,
+      "q25": 2.0,
+      "median": 3.0,
+      "q75": 4.0,
+      "max": 7.0,
+      "skew": 0.15567818770739378,
+      "kurtosis": -0.56864465836391
+    },
+    "vacation_days_taken": {
+      "count": 100000,
+      "mean": 12.0498,
+      "std": 5.8784815663107475,
+      "min": 0.0,
+      "q25": 8.0,
+      "median": 12.0,
+      "q75": 16.0,
+      "max": 30.0,
+      "skew": 0.10763313205526209,
+      "kurtosis": -0.3152200904999818
+    },
+    "therapy_access": {
+      "count": 100000,
+      "mean": 0.34062,
+      "std": 0.473920100441642,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 1.0,
+      "max": 1.0,
+      "skew": 0.6726162807411022,
+      "kurtosis": -1.5476182916478496
+    },
+    "uses_therapy": {
+      "count": 100000,
+      "mean": 0.15185,
+      "std": 0.35887722890795715,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.0,
+      "max": 1.0,
+      "skew": 1.9402566398469163,
+      "kurtosis": 1.7646311206924632
+    },
+    "ai_tools_daily": {
+      "count": 100000,
+      "mean": 0.73006,
+      "std": 0.4439305882045879,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 1.0,
+      "q75": 1.0,
+      "max": 1.0,
+      "skew": -1.0364890701606682,
+      "kurtosis": -0.9257089220159211
+    },
+    "manager_support_score": {
+      "count": 100000,
+      "mean": 5.804993999999999,
+      "std": 1.9563740782272034,
+      "min": 1.0,
+      "q25": 4.5,
+      "median": 5.8,
+      "q75": 7.2,
+      "max": 10.0,
+      "skew": -0.05150852341729105,
+      "kurtosis": -0.3726409042605119
+    },
+    "work_life_balance_score": {
+      "count": 100000,
+      "mean": 5.4225840000000005,
+      "std": 1.8083187946577979,
+      "min": 1.0,
+      "q25": 4.2,
+      "median": 5.4,
+      "q75": 6.7,
+      "max": 10.0,
+      "skew": 0.007133833584261841,
+      "kurtosis": -0.2597593246379297
+    },
+    "job_satisfaction_score": {
+      "count": 100000,
+      "mean": 4.834823,
+      "std": 1.9207961769148054,
+      "min": 1.0,
+      "q25": 3.5,
+      "median": 4.8,
+      "q75": 6.2,
+      "max": 10.0,
+      "skew": 0.11215467061063056,
+      "kurtosis": -0.3910482825172261
+    },
+    "social_support_score": {
+      "count": 100000,
+      "mean": 5.383951,
+      "std": 1.832773504878931,
+      "min": 1.0,
+      "q25": 4.1,
+      "median": 5.4,
+      "q75": 6.6,
+      "max": 10.0,
+      "skew": 0.017201967050254518,
+      "kurtosis": -0.2890726089004563
+    },
+    "deadline_pressure_score": {
+      "count": 100000,
+      "mean": 6.385095,
+      "std": 1.7692419402516524,
+      "min": 1.0,
+      "q25": 5.2,
+      "median": 6.4,
+      "q75": 7.6,
+      "max": 10.0,
+      "skew": -0.18546949793111245,
+      "kurtosis": -0.2612713979670822
+    },
+    "autonomy_score": {
+      "count": 100000,
+      "mean": 5.836528,
+      "std": 1.836490520582756,
+      "min": 1.0,
+      "q25": 4.6,
+      "median": 5.8,
+      "q75": 7.1,
+      "max": 10.0,
+      "skew": -0.03537224707158845,
+      "kurtosis": -0.294494021843553
+    },
+    "stress_score": {
+      "count": 100000,
+      "mean": 7.055398999999999,
+      "std": 2.1285299521492695,
+      "min": 1.0,
+      "q25": 5.5,
+      "median": 7.1,
+      "q75": 8.9,
+      "max": 10.0,
+      "skew": -0.3245991330389948,
+      "kurtosis": -0.7067893779067682
+    },
+    "burnout_score": {
+      "count": 100000,
+      "mean": 5.401675,
+      "std": 2.668424722430819,
+      "min": 0.0,
+      "q25": 3.5,
+      "median": 5.4,
+      "q75": 7.4,
+      "max": 10.0,
+      "skew": -0.05919851723422275,
+      "kurtosis": -0.7717042115113828
+    },
+    "phq9_score": {
+      "count": 100000,
+      "mean": 6.27194,
+      "std": 4.954270287776076,
+      "min": 0.0,
+      "q25": 2.0,
+      "median": 6.0,
+      "q75": 10.0,
+      "max": 27.0,
+      "skew": 0.49919281483985056,
+      "kurtosis": -0.48803808901143775
+    },
+    "gad7_score": {
+      "count": 100000,
+      "mean": 5.11892,
+      "std": 4.007512774176316,
+      "min": 0.0,
+      "q25": 2.0,
+      "median": 5.0,
+      "q75": 8.0,
+      "max": 21.0,
+      "skew": 0.4755021384672062,
+      "kurtosis": -0.5144076100247092
+    },
+    "seeks_mental_health_support": {
+      "count": 100000,
+      "mean": 0.49789,
+      "std": 0.499998047876668,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 1.0,
+      "max": 1.0,
+      "skew": 0.008440201756005735,
+      "kurtosis": -1.9999687627695852
+    },
+    "job_change_intention": {
+      "count": 100000,
+      "mean": 0.32002,
+      "std": 0.466486200968214,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 1.0,
+      "max": 1.0,
+      "skew": 0.7716566933745478,
+      "kurtosis": -1.4045740394510573
+    }
+  },
+  "categorical": {
+    "gender": {
+      "cardinality": 4,
+      "top_values": {
+        "Male": 65243,
+        "Female": 29759,
+        "Non-binary": 3994,
+        "Prefer not to say": 1004
+      }
+    },
+    "country": {
+      "cardinality": 10,
+      "top_values": {
+        "USA": 31966,
+        "India": 21998,
+        "UK": 9939,
+        "Canada": 7940,
+        "Germany": 7099,
+        "Australia": 6169,
+        "Brazil": 4050,
+        "Netherlands": 3956,
+        "Singapore": 3947,
+        "France": 2936
+      }
+    },
+    "job_role": {
+      "cardinality": 12,
+      "top_values": {
+        "Software Engineer": 20080,
+        "Data Scientist": 12029,
+        "ML Engineer": 10114,
+        "Data Analyst": 8028,
+        "Backend Developer": 7996,
+        "Frontend Developer": 7970,
+        "Product Manager": 7965,
+        "DevOps Engineer": 7949,
+        "Full Stack Developer": 6907,
+        "Cybersecurity Engineer": 4011
+      }
+    },
+    "seniority_level": {
+      "cardinality": 6,
+      "top_values": {
+        "Mid": 28092,
+        "Senior": 24852,
+        "Junior": 20230,
+        "Lead": 11928,
+        "Manager": 9915,
+        "Principal": 4983
+      }
+    },
+    "company_size": {
+      "cardinality": 5,
+      "top_values": {
+        "Mid (201-1000)": 25062,
+        "Large (1001-5000)": 22027,
+        "Startup (1-50)": 19771,
+        "Small (51-200)": 18067,
+        "Enterprise (5000+)": 15073
+      }
+    },
+    "industry": {
+      "cardinality": 10,
+      "top_values": {
+        "SaaS / Cloud": 19957,
+        "Fintech": 15064,
+        "E-commerce": 12057,
+        "AI / ML Startup": 11957,
+        "Healthcare Tech": 10004,
+        "Cybersecurity": 7900,
+        "Consulting": 7012,
+        "Enterprise Software": 6098,
+        "Gaming": 5936,
+        "Social Media / AdTech": 4015
+      }
+    },
+    "work_mode": {
+      "cardinality": 3,
+      "top_values": {
+        "Hybrid": 39856,
+        "Remote": 34936,
+        "On-site": 25208
+      }
+    },
+    "phq9_category": {
+      "cardinality": 5,
+      "top_values": {
+        "None (0-4)": 40918,
+        "Mild (5-9)": 32611,
+        "Moderate (10-14)": 20133,
+        "Moderately Severe (15-19)": 5773,
+        "Severe (20-27)": 565
+      }
+    },
+    "gad7_category": {
+      "cardinality": 4,
+      "top_values": {
+        "Minimal (0-4)": 47532,
+        "Mild (5-9)": 36912,
+        "Moderate (10-14)": 14191,
+        "Severe (15-21)": 1365
+      }
+    },
+    "burnout_level": {
+      "cardinality": 4,
+      "top_values": {
+        "Severe": 28576,
+        "Moderate": 26255,
+        "Low": 25807,
+        "High": 19362
+      }
+    }
+  },
+  "target": {
+    "Severe": 28576,
+    "Moderate": 26255,
+    "Low": 25807,
+    "High": 19362
+  }
+}
