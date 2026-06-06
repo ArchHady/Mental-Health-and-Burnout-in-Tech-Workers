@@ -25,7 +25,6 @@ import types
 from feature_engineering import engineer_features
 from models import SoftVotingEnsemble
 
-st.image("Brain_Burnout_Image.jpg", use_container_width=True)
 # ── Pickle compatibility — two-layer defence ─────────────────────────────────
 # Layer 1: sys.modules registration
 # joblib stores the module path of every class in the pickle file.
@@ -35,24 +34,34 @@ for _mod_name in ("__main__", "models", "train_model"):
     _mod = sys.modules.setdefault(_mod_name, types.ModuleType(_mod_name))
     setattr(_mod, "SoftVotingEnsemble", SoftVotingEnsemble)
 
-# Layer 2: NumpyUnpickler.find_class patch (catches any remaining edge case)
-# joblib uses NumpyUnpickler internally.  Patching find_class on that class
-# means our handler runs inside joblib.load itself, regardless of which module
-# name was stored in the pickle or what Python version is running.
+# Layer 2: NumpyUnpickler.find_class patch
+# We patch joblib's internal unpickler so SoftVotingEnsemble is resolved by
+# CLASS NAME, not by module path — works regardless of Python version or how
+# the model was trained.
+#
+# IMPORTANT: we call _pickle.Unpickler.find_class (the C base) directly for
+# all other classes.  Do NOT use _orig_find captured from _NUP — on Streamlit
+# Cloud the app can be reloaded in the same process, which would make _orig_find
+# point back to _safe_find_class itself, causing infinite recursion.
+import pickle as _pickle
+
 try:
     from joblib.numpy_pickle import NumpyUnpickler as _NUP
-    _orig_find = getattr(_NUP, "find_class", None)
 
-    def _safe_find_class(self, module, name):       # noqa: E306
+    def _safe_find_class(self, module, name):           # noqa: E306
+        # Our custom class — return it directly, no module import needed.
         if name == "SoftVotingEnsemble":
             return SoftVotingEnsemble
-        if _orig_find is not None:
-            return _orig_find(self, module, name)
-        return super(_NUP, self).find_class(module, name)
+        # Replicate what pickle.Unpickler.find_class does internally:
+        #   import the module, then getattr the class from it.
+        # We do this manually instead of calling find_class to guarantee
+        # zero recursion — no method call that could loop back to us.
+        __import__(module, level=0)
+        return getattr(sys.modules[module], name)
 
     _NUP.find_class = _safe_find_class
 except Exception:
-    pass  # fall back to layer-1 only if joblib internals differ
+    pass  # fall back to layer-1 only
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Page config  (must be the very first Streamlit call)
@@ -949,6 +958,9 @@ def page_predict(model, label_encoder, feature_meta: dict, df: pd.DataFrame) -> 
 # Router
 # ─────────────────────────────────────────────────────────────────────────────
 def main() -> None:
+    # Top banner image (shown on every page)
+    st.image("Brain_Burnout_Image.jpg", use_container_width=True)
+
     # Sidebar navigation
     with st.sidebar:
         st.markdown("## 🧠 Burnout Dashboard")
