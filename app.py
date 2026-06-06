@@ -49,15 +49,40 @@ try:
     from joblib.numpy_pickle import NumpyUnpickler as _NUP
 
     def _safe_find_class(self, module, name):           # noqa: E306
-        # Our custom class — return it directly, no module import needed.
+        # ── Our custom class ────────────────────────────────────────────────
         if name == "SoftVotingEnsemble":
             return SoftVotingEnsemble
-        # Replicate what pickle.Unpickler.find_class does internally:
-        #   import the module, then getattr the class from it.
-        # We do this manually instead of calling find_class to guarantee
-        # zero recursion — no method call that could loop back to us.
-        __import__(module, level=0)
-        return getattr(sys.modules[module], name)
+
+        # ── Try the exact stored module path ────────────────────────────────
+        try:
+            __import__(module, level=0)
+            mod = sys.modules.get(module)
+            if mod is not None and hasattr(mod, name):
+                return getattr(mod, name)
+        except (ModuleNotFoundError, ImportError, AttributeError):
+            pass
+
+        # ── Fallback: walk up the module hierarchy ───────────────────────────
+        # Handles cases where a package reorganised its internal paths between
+        # versions (common in sklearn, xgboost, scipy across major releases).
+        # e.g. "sklearn.preprocessing._encoders" → "sklearn.preprocessing"
+        parts = module.split(".")
+        for end in range(len(parts) - 1, 0, -1):
+            candidate = ".".join(parts[:end])
+            try:
+                __import__(candidate, level=0)
+                mod = sys.modules.get(candidate)
+                if mod is not None and hasattr(mod, name):
+                    return getattr(mod, name)
+            except (ModuleNotFoundError, ImportError, AttributeError):
+                continue
+
+        # ── Nothing worked — raise a clear, unredacted message ───────────────
+        raise ModuleNotFoundError(
+            f"Cannot unpickle {module}.{name}. "
+            "The model was trained with a different package version than the "
+            "deployment environment. Retrain with: python train_model.py"
+        )
 
     _NUP.find_class = _safe_find_class
 except Exception:
