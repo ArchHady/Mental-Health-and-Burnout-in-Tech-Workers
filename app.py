@@ -25,6 +25,7 @@ import types
 from feature_engineering import engineer_features
 from models import SoftVotingEnsemble
 
+st.image("Brain_Burnout_Image.jpg", use_container_width=True)
 # ── Pickle compatibility — two-layer defence ─────────────────────────────────
 # Layer 1: sys.modules registration
 # joblib stores the module path of every class in the pickle file.
