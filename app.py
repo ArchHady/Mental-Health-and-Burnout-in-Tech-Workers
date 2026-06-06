@@ -19,8 +19,21 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+import sys
+import types
+
 from feature_engineering import engineer_features
-from models import SoftVotingEnsemble  # noqa: F401 — needed so joblib can unpickle model.joblib
+from models import SoftVotingEnsemble
+
+# ── Pickle compatibility patch ────────────────────────────────────────────────
+# joblib stores the *module path* of every class in the pickle.  Depending on
+# which Python / environment trained the model, SoftVotingEnsemble may have
+# been stored as  '__main__', 'models', or 'train_model'.  Registering the
+# class under all three names in sys.modules ensures joblib can always find it
+# regardless of where the artifact was originally produced.
+for _mod_name in ("__main__", "models", "train_model"):
+    _mod = sys.modules.setdefault(_mod_name, types.ModuleType(_mod_name))
+    setattr(_mod, "SoftVotingEnsemble", SoftVotingEnsemble)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Page config  (must be the very first Streamlit call)
@@ -44,17 +57,68 @@ CLASS_COLORS = {"Low": "#27ae60", "Moderate": "#f39c12", "High": "#e67e22", "Sev
 CLASS_EMOJI  = {"Low": "🟢", "Moderate": "🟡", "High": "🟠", "Severe": "🔴"}
 CLASS_BG     = {"Low": "#eafaf1", "Moderate": "#fef9e7", "High": "#fef5e7", "Severe": "#fdf2f0"}
 
+# ── Shared Plotly theme ───────────────────────────────────────────────────────
+# Call apply_theme(fig) on every figure so every chart looks identical.
+CHART_FONT   = dict(family="sans-serif", size=13, color="#2c3e50")
+CHART_COLORS = ["#3498db", "#27ae60", "#e67e22", "#e74c3c",
+                "#9b59b6", "#1abc9c", "#f39c12", "#2980b9"]
+
+def apply_theme(fig: go.Figure, height: int = 400, title: str = "") -> go.Figure:
+    """Apply a consistent light theme to every Plotly chart."""
+    fig.update_layout(
+        height=height,
+        font=CHART_FONT,
+        title=dict(text=title, font=dict(size=15, color="#2c3e50")) if title else {},
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#f8f9fa",
+        margin=dict(t=40 if title else 20, b=20, l=10, r=10),
+        legend=dict(
+            bgcolor="rgba(255,255,255,0.9)",
+            bordercolor="#dee2e6",
+            borderwidth=1,
+            font=dict(color="#2c3e50"),
+        ),
+        xaxis=dict(
+            gridcolor="#dee2e6", linecolor="#adb5bd",
+            tickfont=dict(color="#495057"), title_font=dict(color="#2c3e50"),
+            zeroline=False,
+        ),
+        yaxis=dict(
+            gridcolor="#dee2e6", linecolor="#adb5bd",
+            tickfont=dict(color="#495057"), title_font=dict(color="#2c3e50"),
+            zeroline=False,
+        ),
+        coloraxis_colorbar=dict(tickfont=dict(color="#2c3e50"),
+                                title_font=dict(color="#2c3e50")),
+    )
+    return fig
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Custom CSS  — card layout, typography, colored badges
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-/* ── Global ── */
+/* ── Global — force dark text on light background ── */
 [data-testid="stAppViewContainer"] { background-color: #f8f9fa; }
 [data-testid="stSidebar"]          { background-color: #ffffff; border-right: 1px solid #e9ecef; }
-h1 { color: #2c3e50; font-weight: 800; }
-h2 { color: #34495e; }
-h3 { color: #495057; }
+
+/* Override any inherited white text from dark themes */
+html, body, [class*="st-"], .main .block-container,
+p, span, li, label, div,
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] *,
+[data-testid="stCaptionContainer"],
+[data-testid="stMetricLabel"],
+[data-testid="stMetricValue"],
+[data-testid="stMetricDelta"],
+.streamlit-expanderHeader,
+[data-baseweb="select"] *,
+[data-baseweb="input"] *,
+[data-baseweb="slider"] *  { color: #2c3e50 !important; }
+
+h1 { color: #2c3e50 !important; font-weight: 800; }
+h2 { color: #34495e !important; }
+h3 { color: #495057 !important; }
 
 /* ── KPI card ── */
 .kpi-card {
@@ -70,6 +134,10 @@ h3 { color: #495057; }
 .kpi-card .kpi-label  { font-size: 0.82rem; color: #7f8c8d; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
 .kpi-card .kpi-icon   { font-size: 1.6rem; margin-bottom: 6px; }
 
+/* ── Elements that MUST keep white text ── */
+.risk-badge, .risk-badge *,
+.section-header, .section-header * { color: white !important; }
+
 /* ── Risk badge ── */
 .risk-badge {
     border-radius: 12px;
@@ -77,7 +145,7 @@ h3 { color: #495057; }
     text-align: center;
     font-size: 2rem;
     font-weight: 800;
-    color: white;
+    color: white !important;
     margin: 12px 0;
 }
 
@@ -323,7 +391,7 @@ def page_home(df: pd.DataFrame, metrics: dict) -> None:
             showlegend=True, legend=dict(orientation="h", y=-0.12),
             margin=dict(t=10, b=30, l=10, r=10), height=340,
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     with col_right:
         section_header("💡 Key Insights")
@@ -376,7 +444,7 @@ def page_home(df: pd.DataFrame, metrics: dict) -> None:
     )
     fig.update_layout(yaxis_tickformat=".0%", height=380, legend_title="Risk Level",
                       margin=dict(t=20))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -427,7 +495,7 @@ def page_explore(df: pd.DataFrame) -> None:
                      text_auto=True)
         fig.update_traces(textposition="outside")
         fig.update_layout(showlegend=False, height=360, margin=dict(t=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     with c2:
         section_header("👥 Burnout by Group")
@@ -452,7 +520,7 @@ def page_explore(df: pd.DataFrame) -> None:
                      labels={y_col: "Share" if normalize else "Count"})
         fig.update_layout(yaxis_tickformat=fmt, xaxis_tickangle=-30, height=360,
                           legend_title="Risk Level", margin=dict(t=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Row 2: feature distribution + box plot ────────────────────────────────
     c1, c2 = st.columns(2)
@@ -474,7 +542,7 @@ def page_explore(df: pd.DataFrame) -> None:
             labels={num_col: num_col.replace("_", " ").title()},
         )
         fig.update_layout(height=340, legend_title="Risk Level", margin=dict(t=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     with c2:
         section_header("📦 Distribution Spread by Risk Level")
@@ -488,7 +556,7 @@ def page_explore(df: pd.DataFrame) -> None:
                      labels={"burnout_level": "Risk Level",
                              box_col: box_col.replace("_", " ").title()})
         fig.update_layout(showlegend=False, height=340, margin=dict(t=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Correlation heatmap ───────────────────────────────────────────────────
     section_header("🔗 How Are Factors Related to Each Other?")
@@ -504,7 +572,7 @@ def page_explore(df: pd.DataFrame) -> None:
     fig = px.imshow(corr, text_auto=True, color_continuous_scale="RdBu_r",
                     zmin=-1, zmax=1, aspect="auto")
     fig.update_layout(height=500, margin=dict(t=10, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Data table ────────────────────────────────────────────────────────────
     with st.expander("📋 View raw data table"):
@@ -569,7 +637,7 @@ def page_model(metrics: dict) -> None:
             xaxis_title="", height=340, margin=dict(t=30),
             showlegend=False,
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Model comparison ──────────────────────────────────────────────────────
     if "leaderboard" in metrics:
@@ -594,7 +662,7 @@ def page_model(metrics: dict) -> None:
                           xaxis_tickangle=-15, margin=dict(t=30))
         fig.add_hline(y=70, line_dash="dot", line_color="#aaa",
                       annotation_text="70% target")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
         best_model_name = metrics.get("winning_model", "")
         st.success(f"✅ **Winner: {best_model_name}** — used for all predictions")
 
@@ -621,7 +689,7 @@ def page_model(metrics: dict) -> None:
             x=i, y=i, text="✓", showarrow=False,
             font=dict(size=18, color="white"), xref="x", yref="y",
         )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Per-class F1 ──────────────────────────────────────────────────────────
     section_header("🎯 Accuracy per Risk Level")
@@ -654,7 +722,7 @@ def page_model(metrics: dict) -> None:
                   annotation_text="Great threshold (0.75)")
     fig.update_layout(showlegend=False, height=380, margin=dict(t=30),
                       yaxis_range=[0, 1.0])
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
     st.dataframe(class_df, use_container_width=True, hide_index=True)
 
     # ── Feature importance ────────────────────────────────────────────────────
@@ -685,7 +753,7 @@ def page_model(metrics: dict) -> None:
     )
     fig.update_layout(height=520, legend=dict(orientation="h", y=1.05),
                       margin=dict(t=40, l=10))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Best hyperparameters ──────────────────────────────────────────────────
     if "best_params" in metrics:
@@ -802,7 +870,7 @@ def page_predict(model, label_encoder, feature_meta: dict, df: pd.DataFrame) -> 
         fig.update_traces(textposition="outside", textfont_size=13)
         fig.update_layout(showlegend=False, yaxis_tickformat=".0%",
                           yaxis_range=[0, 1.05], height=310, margin=dict(t=10))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(apply_theme(fig), use_container_width=True)
 
     # ── Key drivers ───────────────────────────────────────────────────────────
     st.markdown("### 🔑 What's Driving This Prediction?")
