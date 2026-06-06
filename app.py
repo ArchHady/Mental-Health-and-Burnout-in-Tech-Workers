@@ -1,15 +1,8 @@
-"""
-Mental Health & Burnout in Tech — Interactive Dashboard
-Designed for non-technical users: plain language, color-coded risk levels,
-visual metrics, and an interactive burnout-risk predictor.
-
-Run:
-    streamlit run app.py
-"""
-
 from __future__ import annotations
 
 import json
+import sys
+import types
 from pathlib import Path
 
 import joblib
@@ -19,74 +12,14 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-import sys
-import types
-
 from feature_engineering import engineer_features
 from models import SoftVotingEnsemble
 
-# ── Pickle compatibility — two-layer defence ─────────────────────────────────
-# Layer 1: sys.modules registration
-# joblib stores the module path of every class in the pickle file.
-# Register SoftVotingEnsemble under all names it could have been pickled with
-# (__main__, models, train_model) so the standard lookup succeeds.
+# joblib stored SoftVotingEnsemble under whatever module ran train_model.py.
+# Register it under all plausible names so the stock unpickler resolves it.
 for _mod_name in ("__main__", "models", "train_model"):
     _mod = sys.modules.setdefault(_mod_name, types.ModuleType(_mod_name))
     setattr(_mod, "SoftVotingEnsemble", SoftVotingEnsemble)
-
-# Layer 2: NumpyUnpickler.find_class patch
-# We patch joblib's internal unpickler so SoftVotingEnsemble is resolved by
-# CLASS NAME, not by module path — works regardless of Python version or how
-# the model was trained.
-#
-# IMPORTANT: we call _pickle.Unpickler.find_class (the C base) directly for
-# all other classes.  Do NOT use _orig_find captured from _NUP — on Streamlit
-# Cloud the app can be reloaded in the same process, which would make _orig_find
-# point back to _safe_find_class itself, causing infinite recursion.
-import pickle as _pickle
-
-try:
-    from joblib.numpy_pickle import NumpyUnpickler as _NUP
-
-    def _safe_find_class(self, module, name):           # noqa: E306
-        # ── Our custom class ────────────────────────────────────────────────
-        if name == "SoftVotingEnsemble":
-            return SoftVotingEnsemble
-
-        # ── Try the exact stored module path ────────────────────────────────
-        try:
-            __import__(module, level=0)
-            mod = sys.modules.get(module)
-            if mod is not None and hasattr(mod, name):
-                return getattr(mod, name)
-        except (ModuleNotFoundError, ImportError, AttributeError):
-            pass
-
-        # ── Fallback: walk up the module hierarchy ───────────────────────────
-        # Handles cases where a package reorganised its internal paths between
-        # versions (common in sklearn, xgboost, scipy across major releases).
-        # e.g. "sklearn.preprocessing._encoders" → "sklearn.preprocessing"
-        parts = module.split(".")
-        for end in range(len(parts) - 1, 0, -1):
-            candidate = ".".join(parts[:end])
-            try:
-                __import__(candidate, level=0)
-                mod = sys.modules.get(candidate)
-                if mod is not None and hasattr(mod, name):
-                    return getattr(mod, name)
-            except (ModuleNotFoundError, ImportError, AttributeError):
-                continue
-
-        # ── Nothing worked — raise a clear, unredacted message ───────────────
-        raise ModuleNotFoundError(
-            f"Cannot unpickle {module}.{name}. "
-            "The model was trained with a different package version than the "
-            "deployment environment. Retrain with: python train_model.py"
-        )
-
-    _NUP.find_class = _safe_find_class
-except Exception:
-    pass  # fall back to layer-1 only
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Page config  (must be the very first Streamlit call)
